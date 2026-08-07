@@ -13,13 +13,18 @@ const PALETTE = [
 
 /* A fuel keeps its colour wherever it appears, so the generation, capacity and
  * emissions charts can be read against each other. Conventional where a
- * convention exists: coal dark, gas orange, solar yellow, hydro blue. */
+ * convention exists: coal grey, gas orange, solar yellow, hydro blue.
+ *
+ * Every value here clears a 3:1 contrast ratio against both the light and the
+ * dark panel background, which rules out the darker greys and browns the
+ * fossil fuels would otherwise get: a 2px line at 1.9:1 is invisible on a dark
+ * page, whatever it looks like on a white one. */
 const NAMED_COLOURS = {
   /* fuels */
-  'Coal': '#4b4b4f',
-  'Oil': '#7a5c3e',
+  'Coal': '#7f7f89',
+  'Oil': '#9c7348',
   'Gas': '#d98b3a',
-  'Other Fossil': '#8c8c92',
+  'Other Fossil': '#6b7280',
   'Nuclear': '#8e5fd9',
   'Hydro': '#2f7fd0',
   'Hydropower': '#2f7fd0',
@@ -31,10 +36,9 @@ const NAMED_COLOURS = {
   'Other renewables': '#9aa66b',
   'Traditional biomass': '#8a7b5c',
   /* aggregates */
-  'Fossil fuels': '#6b6b70',
+  'Fossil fuels': '#8a8a92',
   'Low-carbon': '#2f9e6d',
-  /* regions */
-  'World': '#16181d',
+  /* regions -- World is deliberately absent; see THEME_COLOURS */
   'China': '#e2622a',
   'United States': '#2f6fdd',
   'European Union': '#189f6d',
@@ -45,6 +49,16 @@ const NAMED_COLOURS = {
   'Flaring': '#c94f7c',
   'Other industry': '#7a8794',
 };
+
+/* Series whose colour has to follow the theme rather than sit at a fixed hex.
+ * World is the line these regional charts exist to show, so it takes the
+ * page's own ink colour -- near-black on light, near-white on dark -- which no
+ * fixed value can do. */
+const THEME_COLOURS = { 'World': '--ink' };
+
+/* ...and it is drawn heavier, and last, so it stays readable where the regions
+ * cross it. */
+const EMPHASISED = new Set(['World']);
 
 /* Charts with few points get visible markers; dense ones would be a smear. */
 const MARKER_THRESHOLD = 60;
@@ -63,6 +77,7 @@ function theme() {
 }
 
 function colourFor(name, index) {
+  if (THEME_COLOURS[name]) return css(THEME_COLOURS[name]);
   return NAMED_COLOURS[name] || PALETTE[index % PALETTE.length];
 }
 
@@ -138,19 +153,33 @@ function bandTraces(series) {
 function lineTraces(series) {
   const dense = series.lines.some((line) => line.points.length > MARKER_THRESHOLD);
   const format = (series.y || {}).tickformat;
-  return series.lines.map((line, i) => ({
+  const built = series.lines.map((line, i) => ({
     type: 'scatter',
     mode: dense ? 'lines' : 'lines+markers',
     name: line.name,
     x: line.points.map((p) => p[0]),
     y: line.points.map((p) => p[1]),
-    line: { color: colourFor(line.name, i), width: 2, shape: series.line_shape || 'linear' },
+    line: {
+      color: colourFor(line.name, i),
+      width: EMPHASISED.has(line.name) ? 3 : 2,
+      shape: series.line_shape || 'linear',
+    },
     marker: { size: 5 },
     connectgaps: false,
+    /* Plotly draws in data order, so the emphasised series has to move to the
+     * end of the array to sit on top. legendrank holds the legend to the order
+     * the registry declared. */
+    legendrank: i,
     /* Match the axis formatting, or the tooltip shows raw 35802000000. */
     yhoverformat: format,
     hovertemplate: '%{y}<extra>%{fullData.name}</extra>',
   }));
+
+  const [emphasised, rest] = [
+    built.filter((t) => EMPHASISED.has(t.name)),
+    built.filter((t) => !EMPHASISED.has(t.name)),
+  ];
+  return [...rest, ...emphasised];
 }
 
 function traces(series) {
