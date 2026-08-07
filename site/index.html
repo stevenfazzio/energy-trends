@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Energy Trends</title>
+<meta name="description" content="Time-series charts on how much energy humanity produces and consumes, where it comes from, and what it is spent on — rebuilt weekly from public data.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>⚡</text></svg>">
+<script src="https://cdn.plot.ly/plotly-basic-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <h1>Energy&nbsp;Trends</h1>
+    <p class="tagline">How much energy humanity moves in a year, where it comes from, and what it
+      is spent on &mdash; rebuilt weekly from public sources.</p>
+    <div class="controls">
+      <nav id="nav" aria-label="Sections"></nav>
+      <label class="toggle">
+        <input type="checkbox" id="events-toggle" checked>
+        <span>Event markers</span>
+      </label>
+    </div>
+  </div>
+</header>
+
+<main id="charts" class="wrap">
+  <p class="loading">Loading charts&hellip;</p>
+</main>
+
+<footer class="wrap">
+  <p id="generated"></p>
+  <p>
+    Each chart names its own source. Data is fetched by
+    <a href="https://github.com/stevenfazzio/energy-trends">this repository</a>, which rebuilds
+    the page every week. Nothing here is an original estimate &mdash; it is other
+    people's published numbers, plotted.
+  </p>
+  <p>
+    Where a chart depends on an accounting convention &mdash; primary versus final energy,
+    capacity versus generation, substitution versus direct method &mdash; the note under it says
+    which one, because the choice frequently moves the number by more than a factor of two.
+  </p>
+  <p class="elsewhere">
+    Fuller treatments of the same territory:
+    <a href="https://ourworldindata.org/energy" rel="noopener">Our World in Data &mdash; Energy</a>
+    and
+    <a href="https://ember-energy.org/data/" rel="noopener">Ember &mdash; Data</a>.
+  </p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

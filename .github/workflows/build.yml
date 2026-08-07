@@ -1,0 +1,68 @@
+name: Update data and deploy
+
+on:
+  schedule:
+    # Weekly, Monday 06:20 UTC. Nothing here moves daily: Ember publishes
+    # monthly, OWID a few times a year, and the one daily upstream (Cambridge's
+    # Bitcoin index) hands over its whole history each time, so a weekly run
+    # loses no points -- only up to a week of freshness on the last one.
+    - cron: "20 6 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    # Belt and braces against a self-retrigger. The primary guard is that a
+    # push made with GITHUB_TOKEN never starts a workflow run at all.
+    paths-ignore:
+      - "data/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Fetch data and assemble site
+        run: uv run python -m energy_trends.build
+
+      - name: Commit this week's snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --staged --quiet; then
+            echo "no data changes"
+          else
+            git commit -m "data: refresh $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,83 @@
+{
+ "id": "bitcoin-share-of-world-electricity",
+ "title": "Bitcoin as a share of world electricity",
+ "description": "The comparison that settles the magnitude question: a load the size of a mid-sized country is still a fraction of a percent of world demand.",
+ "group": "loads",
+ "sources": [
+  {
+   "name": "Cambridge Bitcoin Electricity Consumption Index",
+   "url": "https://ccaf.io/cbnsi/cbeci"
+  },
+  {
+   "name": "Ember \u2014 Yearly Electricity Data",
+   "url": "https://ember-energy.org/data/yearly-electricity-data/",
+   "license": "CC BY 4.0"
+  }
+ ],
+ "y": {
+  "title": "Share of world electricity demand (%)",
+  "tickformat": ".2f",
+  "rangemode": "tozero"
+ },
+ "mode": "recompute",
+ "annotations": false,
+ "chart": "line",
+ "line_shape": "linear",
+ "notes": "",
+ "updated": "2026-08-07T15:19:02Z",
+ "lines": [
+  {
+   "name": "Bitcoin network",
+   "points": [
+    [
+     "2014-01-01",
+     0.020992988098515363
+    ],
+    [
+     "2015-01-01",
+     0.01467361506826948
+    ],
+    [
+     "2016-01-01",
+     0.022329402051650307
+    ],
+    [
+     "2017-01-01",
+     0.061619172849547314
+    ],
+    [
+     "2018-01-01",
+     0.17172766544400236
+    ],
+    [
+     "2019-01-01",
+     0.21349454228531636
+    ],
+    [
+     "2020-01-01",
+     0.25230262103898204
+    ],
+    [
+     "2021-01-01",
+     0.36550962697682626
+    ],
+    [
+     "2022-01-01",
+     0.35955770724764297
+    ],
+    [
+     "2023-01-01",
+     0.4459938774406467
+    ],
+    [
+     "2024-01-01",
+     0.5673777731286126
+    ],
+    [
+     "2025-01-01",
+     0.6543901187403415
+    ]
+   ]
+  }
+ ]
+}

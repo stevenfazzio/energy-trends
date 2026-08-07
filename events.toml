@@ -1,0 +1,42 @@
+# Vertical markers drawn on any chart with annotations enabled.
+# Add entries freely -- the site reads whatever is here, and charts that would be
+# cluttered by them can set annotations=False in the registry.
+#
+# These are shocks with a plausible claim on the shape of the curves, not a
+# general timeline of energy history. The bar for inclusion is that you can
+# point at a chart and see the line move. Announcements and pledges are
+# deliberately absent: the Paris Agreement, the US Inflation Reduction Act and
+# the COP28 tripling pledge all matter, but none of them bends a line on a date,
+# and every marker added crowds the labels on the long charts.
+
+[[event]]
+date = "1973-10-17"
+label = "Oil embargo"
+
+[[event]]
+date = "1979-03-28"
+label = "Three Mile Island"
+
+[[event]]
+date = "1986-04-26"
+label = "Chernobyl"
+
+[[event]]
+date = "2008-09-15"
+label = "Financial crisis"
+
+[[event]]
+date = "2011-03-11"
+label = "Fukushima"
+
+[[event]]
+date = "2020-03-11"
+label = "COVID"
+
+[[event]]
+date = "2022-02-24"
+label = "Ukraine invasion"
+
+[[event]]
+date = "2023-04-15"
+label = "Germany's last reactors close"
