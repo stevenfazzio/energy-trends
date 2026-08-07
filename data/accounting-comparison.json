@@ -25,7 +25,7 @@
  "chart": "line",
  "line_shape": "linear",
  "notes": "The substitution method asks what fossil fuel would have been burned to produce the same electricity, and so credits a solar panel with the waste heat of the power station it replaces. Total energy supply counts the electricity itself. The first flatters renewables against fossil fuels; the second understates how much useful energy they deliver, since two-thirds of a thermal plant's input is lost as heat. The honest reading is that both are conventions, and that the single-number claims built on either should be treated accordingly.",
- "updated": "2026-08-07T15:26:16Z",
+ "updated": "2026-08-07T15:44:04Z",
  "lines": [
   {
    "name": "Substitution method (Energy Institute)",

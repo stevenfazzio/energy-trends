@@ -20,7 +20,7 @@
  "chart": "line",
  "line_shape": "linear",
  "notes": "Converted from trillion Btu at 0.293 TWh each. Sector totals include the electricity each sector uses, attributed to the sector rather than to power generation, so the four lines partition the national total. Month lengths are not normalised, so February always dips.",
- "updated": "2026-08-07T15:26:38Z",
+ "updated": "2026-08-07T15:44:27Z",
  "lines": [
   {
    "name": "Transportation",

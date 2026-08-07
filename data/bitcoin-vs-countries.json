@@ -24,7 +24,7 @@
  "chart": "line",
  "line_shape": "linear",
  "notes": "Bitcoin is the mean of its monthly annualised estimates within each year; the countries are Ember's measured annual demand. Countries chosen to bracket the current estimate from both sides, not for any other reason.",
- "updated": "2026-08-07T15:26:31Z",
+ "updated": "2026-08-07T15:44:20Z",
  "lines": [
   {
    "name": "Bitcoin network",

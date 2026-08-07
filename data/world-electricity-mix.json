@@ -20,7 +20,7 @@
  "chart": "area",
  "line_shape": "linear",
  "notes": "Measured generation, no substitution scaling \u2014 so solar here is the electricity it actually produced. Ember's monthly coverage begins in 2019 and the most recent months are revised as national statistics land.",
- "updated": "2026-08-07T15:26:23Z",
+ "updated": "2026-08-07T15:44:10Z",
  "lines": [
   {
    "name": "Coal",

@@ -25,7 +25,7 @@
  "chart": "line",
  "line_shape": "linear",
  "notes": "Food is FAO's dietary energy *supply* \u2014 what reaches retail \u2014 so it runs above what people actually eat, by roughly the share that is wasted. Converted at 4,184 J per kcal. A resting adult body dissipates something like 80\u2013100 W, so the food line sitting near 145 W is the right order of magnitude for a population that also includes children and the sedentary. Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
- "updated": "2026-08-07T15:26:16Z",
+ "updated": "2026-08-07T15:44:04Z",
  "lines": [
   {
    "name": "All energy per person",
