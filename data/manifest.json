@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-07T15:19:03Z",
+ "generated": "2026-08-07T15:26:40Z",
  "groups": [
   {
    "id": "throughput",
@@ -29,7 +29,7 @@
      "line_shape": "linear",
      "notes": "Measured as total energy supply, the IEA convention: renewable electricity at face value, nuclear at its heat input. This is not the same convention as the other charts in this group, and gives solar and wind figures about 2.4\u00d7 lower \u2014 the comparison chart under Sources shows the gap. Before 1965 the series is Vaclav Smil's historical estimate, not measurement. Event markers are off here because two centuries of x-axis crowds them all into the last inch.",
      "ok": true,
-     "updated": "2026-08-07T15:18:59Z",
+     "updated": "2026-08-07T15:26:14Z",
      "lines": 10,
      "points": 780
     },
@@ -56,7 +56,7 @@
      "line_shape": "linear",
      "notes": "Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 6,
      "points": 360
     },
@@ -88,7 +88,7 @@
      "line_shape": "linear",
      "notes": "Food is FAO's dietary energy *supply* \u2014 what reaches retail \u2014 so it runs above what people actually eat, by roughly the share that is wasted. Converted at 4,184 J per kcal. A resting adult body dissipates something like 80\u2013100 W, so the food line sitting near 145 W is the right order of magnitude for a population that also includes children and the sedentary. Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 2,
      "points": 123
     },
@@ -115,7 +115,7 @@
      "line_shape": "linear",
      "notes": "Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 6,
      "points": 360
     },
@@ -142,7 +142,7 @@
      "line_shape": "linear",
      "notes": "GDP is in constant international dollars, so this is not distorted by inflation or exchange rates, but it does move with what a country makes as much as with how efficiently it makes it \u2014 offshoring heavy industry improves the ratio without any physical change. The EU and Africa are absent because OWID carries no GDP figure for those aggregates, and the series ends in 2022 for the same reason. Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 4,
      "points": 187
     }
@@ -175,7 +175,7 @@
      "line_shape": "linear",
      "notes": "Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 9,
      "points": 540
     },
@@ -202,7 +202,7 @@
      "line_shape": "linear",
      "notes": "Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 2,
      "points": 120
     },
@@ -228,7 +228,7 @@
      "line_shape": "linear",
      "notes": "Annual differences are noisy: a mild winter or one large economy's recession moves a line more than any trend in the technology. Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 9,
      "points": 531
     },
@@ -255,7 +255,7 @@
      "line_shape": "linear",
      "notes": "Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 4,
      "points": 240
     },
@@ -287,7 +287,7 @@
      "line_shape": "linear",
      "notes": "The substitution method asks what fossil fuel would have been burned to produce the same electricity, and so credits a solar panel with the waste heat of the power station it replaces. Total energy supply counts the electricity itself. The first flatters renewables against fossil fuels; the second understates how much useful energy they deliver, since two-thirds of a thermal plant's input is lost as heat. The honest reading is that both are conventions, and that the single-number claims built on either should be treated accordingly.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 2,
      "points": 81
     }
@@ -321,7 +321,7 @@
      "line_shape": "linear",
      "notes": "Final energy, not primary: it excludes the fuel burned in power stations to make the electricity. Transport and industrial heat are most of what the remaining four-fifths goes to.",
      "ok": true,
-     "updated": "2026-08-07T15:19:00Z",
+     "updated": "2026-08-07T15:26:16Z",
      "lines": 6,
      "points": 240
     },
@@ -348,7 +348,7 @@
      "line_shape": "linear",
      "notes": "Measured generation, no substitution scaling \u2014 so solar here is the electricity it actually produced. Ember's monthly coverage begins in 2019 and the most recent months are revised as national statistics land.",
      "ok": true,
-     "updated": "2026-08-07T15:19:01Z",
+     "updated": "2026-08-07T15:26:23Z",
      "lines": 9,
      "points": 810
     },
@@ -375,7 +375,7 @@
      "line_shape": "linear",
      "notes": "Monthly, so the seasonal cycle dominates the short-run wiggle; compare the same month across years rather than adjacent months.",
      "ok": true,
-     "updated": "2026-08-07T15:19:01Z",
+     "updated": "2026-08-07T15:26:23Z",
      "lines": 5,
      "points": 748
     },
@@ -402,7 +402,7 @@
      "line_shape": "linear",
      "notes": "",
      "ok": true,
-     "updated": "2026-08-07T15:19:01Z",
+     "updated": "2026-08-07T15:26:23Z",
      "lines": 5,
      "points": 748
     },
@@ -429,7 +429,7 @@
      "line_shape": "linear",
      "notes": "Capacity is what a fleet could deliver running flat out, not what it does deliver. The next chart is the conversion between the two.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:28Z",
      "lines": 9,
      "points": 234
     },
@@ -456,7 +456,7 @@
      "line_shape": "linear",
      "notes": "Solar sits near 13% and nuclear near 78%, so a gigawatt of one is not a gigawatt of the other \u2014 a distinction that headlines about capacity records routinely drop. Low factors are not all the same thing: solar's is set by the sun, gas-fired plant runs part-time by choice, and a coal fleet's decline reflects being outbid. 'Other renewables' is omitted: it is a residual category whose capacity and generation series do not cover the same plant, and dividing one by the other yields factors above 100%.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:28Z",
      "lines": 8,
      "points": 208
     }
@@ -489,7 +489,7 @@
      "line_shape": "linear",
      "notes": "An estimate, not a measurement \u2014 the only such series on this site, which is why it is the only one drawn with a band. Cambridge infers power draw from the network hash rate and an assumed distribution of mining hardware. Sampled at month end from a daily index.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:31Z",
      "lines": 1,
      "points": 194
     },
@@ -520,7 +520,7 @@
      "line_shape": "linear",
      "notes": "Bitcoin is the mean of its monthly annualised estimates within each year; the countries are Ember's measured annual demand. Countries chosen to bracket the current estimate from both sides, not for any other reason.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:31Z",
      "lines": 5,
      "points": 61
     },
@@ -551,7 +551,7 @@
      "line_shape": "linear",
      "notes": "",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:31Z",
      "lines": 1,
      "points": 12
     },
@@ -578,7 +578,7 @@
      "line_shape": "linear",
      "notes": "One small country hosting a disproportionate share of European capacity, so this is an early case rather than a representative one. Metered consumption only, which excludes any on-site generation.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:32Z",
      "lines": 1,
      "points": 44
     },
@@ -605,7 +605,7 @@
      "line_shape": "linear",
      "notes": "Converted from trillion Btu at 0.293 TWh each. Sector totals include the electricity each sector uses, attributed to the sector rather than to power generation, so the four lines partition the national total. Month lengths are not normalised, so February always dips.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:38Z",
      "lines": 4,
      "points": 2560
     }
@@ -639,7 +639,7 @@
      "line_shape": "linear",
      "notes": "Cement and other industry are not energy emissions: they come from the chemistry of making the material, and no change to the energy system removes them.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:39Z",
      "lines": 6,
      "points": 1650
     },
@@ -666,7 +666,7 @@
      "line_shape": "linear",
      "notes": "Seasonal: intensity rises in winter when demand is met by whatever can be dispatched. Compare the same month across years.",
      "ok": true,
-     "updated": "2026-08-07T15:19:02Z",
+     "updated": "2026-08-07T15:26:39Z",
      "lines": 5,
      "points": 748
     },
@@ -693,7 +693,7 @@
      "line_shape": "linear",
      "notes": "",
      "ok": true,
-     "updated": "2026-08-07T15:19:03Z",
+     "updated": "2026-08-07T15:26:40Z",
      "lines": 4,
      "points": 360
     }

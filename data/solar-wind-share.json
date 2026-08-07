@@ -20,7 +20,7 @@
  "chart": "line",
  "line_shape": "linear",
  "notes": "Monthly, so the seasonal cycle dominates the short-run wiggle; compare the same month across years rather than adjacent months.",
- "updated": "2026-08-07T15:19:01Z",
+ "updated": "2026-08-07T15:26:23Z",
  "lines": [
   {
    "name": "World",

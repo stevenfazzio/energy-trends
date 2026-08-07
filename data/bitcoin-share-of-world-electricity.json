@@ -24,14 +24,14 @@
  "chart": "line",
  "line_shape": "linear",
  "notes": "",
- "updated": "2026-08-07T15:19:02Z",
+ "updated": "2026-08-07T15:26:31Z",
  "lines": [
   {
    "name": "Bitcoin network",
    "points": [
     [
      "2014-01-01",
-     0.020992988098515363
+     0.020992988098515367
     ],
     [
      "2015-01-01",

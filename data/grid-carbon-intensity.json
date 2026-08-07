@@ -20,7 +20,7 @@
  "chart": "line",
  "line_shape": "linear",
  "notes": "Seasonal: intensity rises in winter when demand is met by whatever can be dispatched. Compare the same month across years.",
- "updated": "2026-08-07T15:19:02Z",
+ "updated": "2026-08-07T15:26:39Z",
  "lines": [
   {
    "name": "World",
