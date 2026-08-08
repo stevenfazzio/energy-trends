@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Measured generation, no substitution scaling \u2014 so solar here is the electricity it actually produced. Ember's monthly coverage begins in 2019 and the most recent months are revised as national statistics land. The 12-month average is on by default; switch to Monthly for the seasonal shape, and to Lines for each fuel against the total.",
- "updated": "2026-08-08T06:05:52Z",
+ "updated": "2026-08-08T06:07:29Z",
  "lines": [
   {
    "name": "Coal",
