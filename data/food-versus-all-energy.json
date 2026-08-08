@@ -27,7 +27,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "The upper line is the long-run supply series divided by world population, which is what carries it back to 1800; before 1965 both are historical estimates rather than measurement, and the energy side is Vaclav Smil's. Food is FAO's dietary energy *supply* \u2014 what reaches retail \u2014 so it runs above what people actually eat, by roughly the share that is wasted, and it only begins in 1961. Converted at 4,184 J per kcal. A resting adult body dissipates something like 80\u2013100 W, so the food line near 145 W is the right order of magnitude for a population that includes children and the sedentary. Counted as total energy supply, not by the substitution method \u2014 the same convention as the long-run chart above, and not the one used elsewhere in this group.",
- "updated": "2026-08-08T05:02:58Z",
+ "updated": "2026-08-08T05:04:25Z",
  "lines": [
   {
    "name": "All energy per person",

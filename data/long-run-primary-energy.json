@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Measured as total energy supply, the IEA convention: renewable electricity at face value, nuclear at its heat input. This is not the same convention as the other charts in this group, and gives solar and wind figures about 2.4\u00d7 lower \u2014 the comparison chart under Sources shows the gap. Before 1965 the series is Vaclav Smil's historical estimate, not measurement. Event markers are off here because two centuries of x-axis crowds them all into the last inch.",
- "updated": "2026-08-08T05:02:58Z",
+ "updated": "2026-08-08T05:04:23Z",
  "lines": [
   {
    "name": "Traditional biomass",

@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Intensity rises in winter, when the extra demand is met by whatever can be dispatched \u2014 a swing wide enough to bury the trend, hence the 12-month average by default. Switch to Monthly to see the seasonal shape itself.",
- "updated": "2026-08-08T05:03:01Z",
+ "updated": "2026-08-08T05:04:47Z",
  "lines": [
   {
    "name": "World",
