@@ -34,8 +34,6 @@ from ..model import Line
 COMPLETE_CSV = "https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-data.csv"
 LONG_RUN_CSV = "https://ourworldindata.org/grapher/global-energy-substitution.csv"
 CO2_CSV = "https://ourworldindata.org/grapher/co2-by-source.csv"
-CALORIES_CSV = "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply.csv"
-POPULATION_CSV = "https://ourworldindata.org/grapher/population.csv"
 
 # Regions chosen to explain the global line rather than to rank countries: the
 # two that dominate the level, the one that dominates the growth, the bloc that
@@ -131,85 +129,6 @@ def power_per_person() -> list[Line]:
         if points:
             lines.append(Line(label, points))
     return lines
-
-
-@lru_cache(maxsize=1)
-def _calories() -> list[dict[str, str]]:
-    return list(csv.DictReader(io.StringIO(get_text(CALORIES_CSV))))
-
-
-@lru_cache(maxsize=1)
-def _world_population() -> dict[str, float]:
-    """{year: world population}. Reaches back to 10,000 BC; we use 1800 on."""
-    out: dict[str, float] = {}
-    for row in csv.DictReader(io.StringIO(get_text(POPULATION_CSV))):
-        if row["Entity"] == "World":
-            value = parse_float(row.get("Population"))
-            if value is not None:
-                out[row["Year"]] = value
-    return out
-
-
-@lru_cache(maxsize=1)
-def _long_run_world_totals() -> dict[str, float]:
-    """{year: total primary energy, TWh} summed across the long-run sources."""
-    out: dict[str, float] = {}
-    for row in _long_run():
-        if row["Entity"] != "World":
-            continue
-        total = 0.0
-        for key, raw in row.items():
-            if key in ("Entity", "Code", "Year"):
-                continue
-            value = parse_float(raw)
-            if value is not None:
-                total += value
-        if total > 0:
-            out[row["Year"]] = total
-    return out
-
-
-# 1 kcal = 4184 J; a day is 86,400 s.
-WATTS_PER_KCAL_PER_DAY = 4184.0 / 86400.0
-
-
-def food_versus_all_energy() -> list[Line]:
-    """What a person eats, against what a person uses. Both in watts.
-
-    The measurement that makes the rest of this site a question about an
-    organism rather than an industry: dietary intake is the energy humans
-    actually run on, and everything above it is energy they have arranged to
-    have burned on their behalf.
-
-    The upper line is computed here rather than taken from OWID's
-    `energy_per_capita`, which starts in 1965. Dividing the long-run supply
-    series by population carries it back to 1800, where the interesting thing
-    is: a person in 1800 commanded something like 650 W, so the ratio to
-    dietary intake was nearer six than seventeen. Most of what this site
-    measures was built in those two centuries.
-    """
-    totals = _long_run_world_totals()
-    population = _world_population()
-
-    energy = []
-    for year in sorted(set(totals) & set(population)):
-        people = population[year]
-        if people > 0:
-            # TWh/year -> W: 1e12 Wh spread over the hours in a year.
-            energy.append((_year_date(year), totals[year] * 1e12 / HOURS_PER_YEAR / people))
-
-    food = []
-    for row in _calories():
-        if row["Entity"] != "World":
-            continue
-        kcal = parse_float(row.get("Daily calorie supply per person"))
-        if kcal is not None:
-            food.append((_year_date(row["Year"]), kcal * WATTS_PER_KCAL_PER_DAY))
-
-    return [
-        Line("All energy per person", energy),
-        Line("Dietary energy per person", food),
-    ]
 
 
 # OWID publishes no GDP for its own continental and bloc aggregates, so the two
@@ -418,3 +337,79 @@ def co2_by_source() -> list[Line]:
         if any(value for _, value in points):
             lines.append(Line(name, points))
     return lines
+
+
+# ---- generation by geography --------------------------------------------
+
+# Mutually exclusive sets that sum to the world total, so the stack is a real
+# decomposition rather than a pile of overlapping aggregates -- the EU does not
+# contain China, the United States or India, and the residual carries whatever
+# is left. Each technology gets the set that tells its own story: solar's is
+# about who is building it, nuclear's about who built it and who stopped.
+SOLAR_REGIONS = [
+    ("China", "China"),
+    ("United States", "United States"),
+    ("European Union (27)", "European Union"),
+    ("India", "India"),
+    ("Africa", "Africa"),
+]
+
+NUCLEAR_REGIONS = [
+    ("United States", "United States"),
+    ("European Union (27)", "European Union"),
+    ("China", "China"),
+    ("Japan", "Japan"),
+    ("Russia", "Russia"),
+]
+
+
+def _generation_by_region(column: str, regions: list[tuple[str, str]]) -> list[Line]:
+    """One band per region plus the residual, summing exactly to the world total.
+
+    The residual is computed rather than looked up, so the bands always add to
+    the published world figure even in years where a region's series has not
+    started. A region missing a year contributes zero and its output sits in
+    the residual until its own series begins.
+    """
+    world = dict(_column("World", column))
+    if not world:
+        return []
+
+    collected = [(label, dict(_column(entity, column))) for entity, label in regions]
+    collected = [(label, values) for label, values in collected if values]
+    if not collected:
+        return []
+
+    # Regions do not all get published to the same year. Running the stack past
+    # the last year they all cover would collapse the laggard's band to zero and
+    # dump its output into the residual, which reads as a country abruptly
+    # ceasing to generate. The tail is cut instead. A region *starting* late is
+    # a different matter and is left to the residual, which is honest: nobody
+    # attributed that output to it at the time.
+    last = min([max(values) for _, values in collected] + [max(world)])
+    dates = [d for d in sorted(world) if d <= last]
+
+    lines = []
+    named: list[dict[str, float]] = []
+    for label, values in collected:
+        named.append(values)
+        # Stacked areas cannot carry gaps: a missing year in one band would
+        # silently shift every band above it.
+        lines.append(Line(label, [(d, values.get(d, 0.0)) for d in dates]))
+
+    rest = []
+    for date in dates:
+        remainder = world[date] - sum(values.get(date, 0.0) for values in named)
+        rest.append((date, max(remainder, 0.0)))
+    lines.append(Line("Rest of world", rest))
+    return lines
+
+
+def solar_by_region() -> list[Line]:
+    """Solar electricity generated, by where it was generated."""
+    return _generation_by_region("solar_electricity", SOLAR_REGIONS)
+
+
+def nuclear_by_region() -> list[Line]:
+    """Nuclear electricity generated, by where it was generated."""
+    return _generation_by_region("nuclear_electricity", NUCLEAR_REGIONS)

@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "GDP is in constant international dollars, so this is not distorted by inflation or exchange rates, but it does move with what a country makes as much as with how efficiently it makes it \u2014 offshoring heavy industry improves the ratio without any physical change. The series ends in 2022, where OWID's GDP figures do. OWID publishes no GDP for its own bloc and continent aggregates, so the European Union and Africa lines are built here by summing member states: both energy and GDP are summed over the same members each year, so a country missing one figure drops out of both and the ratio still describes whatever is covered. The 27 EU members reproduce OWID's own energy aggregate to four significant figures; the 54 African states cover about 94% of it. Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
- "updated": "2026-08-08T05:04:25Z",
+ "updated": "2026-08-08T06:05:51Z",
  "lines": [
   {
    "name": "World",

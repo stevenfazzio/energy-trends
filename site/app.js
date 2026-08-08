@@ -55,6 +55,10 @@ const NAMED_COLOURS = {
   'Africa': '#d4a017',
   'South America': '#c94f7c',
   'Oceania': '#4aa3c7',
+  /* named only in the by-geography generation charts */
+  'Japan': '#c94f7c',
+  'Russia': '#4aa3c7',
+  'Rest of world': '#7a8794',
   /* CO2 sources */
   'Cement': '#a0a0a8',
   'Flaring': '#c94f7c',
@@ -195,7 +199,7 @@ function areaTraces(chart, lines) {
       line: { width: 0.5, color: colour },
       fillcolor: translucent(colour, 0.85),
       visible: visibilityOf(chart, line.name),
-      yhoverformat: axisFor(chart).tickformat,
+      yhoverformat: tickformatFor(chart),
       hovertemplate: '%{y}<extra>%{fullData.name}</extra>',
     };
   });
@@ -232,7 +236,7 @@ function bandTraces(chart, lines) {
 
 function lineTraces(chart, lines) {
   const dense = lines.some((line) => line.points.length > MARKER_THRESHOLD);
-  const format = axisFor(chart).tickformat;
+  const format = tickformatFor(chart);
   const built = lines.map((line, i) => ({
     type: 'scatter',
     mode: dense ? 'lines' : 'lines+markers',
@@ -275,6 +279,27 @@ function axisFor(chart) {
     return { title: 'Share of total', tickformat: '.0%', rangemode: 'tozero' };
   }
   return y;
+}
+
+/* A log axis cannot place a negative value. Plotly drops the point and joins
+ * the gap with a spike to the axis floor, which turns a chart of year-on-year
+ * change -- where half the interest is in the sources going backwards -- into
+ * a picket fence. Series that cross zero do not offer the control at all. */
+function canLog(chart) {
+  return !linesFor(chart).some(
+    (line) => line.points.some((p) => p[1] != null && p[1] < 0),
+  );
+}
+
+const logActive = (chart) => chart.log && !isStacked(chart) && canLog(chart);
+
+/* A fixed-decimal format is wrong on a log axis spanning several decades:
+ * ".1f" labels both 0.005 and 0.05 as "0.0". Significant digits read correctly
+ * at every decade, so swap to them when the axis goes logarithmic. */
+function tickformatFor(chart) {
+  const format = axisFor(chart).tickformat;
+  if (logActive(chart) && /f$/.test(format || '')) return '.3~g';
+  return format;
 }
 
 const DAY_MS = 86400000;
@@ -347,7 +372,7 @@ function layoutFor(chart) {
   const y = axisFor(chart);
   const extent = dateExtent(chart);
   const decorations = eventDecorations(chart, palette, extent);
-  const logScale = chart.log && !isStacked(chart);
+  const logScale = logActive(chart);
 
   return {
     margin: { l: 68, r: 18, t: 26, b: 40 },
@@ -368,7 +393,7 @@ function layoutFor(chart) {
     yaxis: {
       type: logScale ? 'log' : 'linear',
       title: { text: y.title || '', font: { size: 12 } },
-      tickformat: y.tickformat,
+      tickformat: tickformatFor(chart),
       /* One label per decade; Plotly's default log ticks label every minor
        * gridline and the axis turns into a wall of numbers. */
       dtick: logScale ? 1 : undefined,
@@ -435,7 +460,7 @@ function renderControls(chart) {
     }));
   }
 
-  if (!isStacked(chart)) {
+  if (!isStacked(chart) && canLog(chart)) {
     bar.append(segmented([['linear', 'Linear'], ['log', 'Log']], chart.log ? 'log' : 'linear', (scale) => {
       chart.log = scale === 'log';
       chart.scaleTouched = true;

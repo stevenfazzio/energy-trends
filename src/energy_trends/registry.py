@@ -132,40 +132,6 @@ SERIES = [
         notes=SUBSTITUTION_NOTE,
     ),
     SeriesSpec(
-        id="food-versus-all-energy",
-        title="Dietary energy against all energy, per person",
-        description=(
-            "What a person eats, next to what a person uses, in the same units. Dietary "
-            "intake is the energy a human body actually runs on; everything above it is "
-            "energy arranged to be burned on that person's behalf. In 1800 the ratio was "
-            "around six to one. It is now about seventeen, and essentially all of that "
-            "change is the upper line moving."
-        ),
-        group="throughput",
-        sources=[
-            OWID_ENERGY,
-            Source(
-                "Our World in Data — Daily supply of calories per person",
-                "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply",
-                "CC BY 4.0",
-            ),
-        ],
-        fetch=owid.food_versus_all_energy,
-        y=Axis(title="Watts per person", log=True, tickformat=".3s"),
-        notes=(
-            "The upper line is the long-run supply series divided by world population, which "
-            "is what carries it back to 1800; before 1965 both are historical estimates "
-            "rather than measurement, and the energy side is Vaclav Smil's. Food is FAO's "
-            "dietary energy *supply* — what reaches retail — so it runs above what people "
-            "actually eat, by roughly the share that is wasted, and it only begins in 1961. "
-            "Converted at 4,184 J per kcal. A resting adult body dissipates something like "
-            "80–100 W, so the food line near 145 W is the right order of magnitude for a "
-            "population that includes children and the sedentary. Counted as total energy "
-            "supply, not by the substitution method — the same convention as the long-run "
-            "chart above, and not the one used elsewhere in this group."
-        ),
-    ),
-    SeriesSpec(
         id="primary-energy-by-continent",
         title="Primary energy consumption by continent",
         description="Where in the world the energy is consumed, stacked to the world total.",
@@ -308,6 +274,47 @@ SERIES = [
             "recent months are revised as national statistics land. The 12-month average is "
             "on by default; switch to Monthly for the seasonal shape, and to Lines for each "
             "fuel against the total."
+        ),
+    ),
+    SeriesSpec(
+        id="solar-by-region",
+        title="Solar electricity, by where it is generated",
+        description=(
+            "Solar generation stacked by region, summing to the world total. China alone is "
+            "over 40% of it, and the 100% view is the one that shows how fast that share "
+            "arrived."
+        ),
+        group="electricity",
+        sources=[OWID_ENERGY],
+        fetch=owid.solar_by_region,
+        y=Axis(title="Generation (TWh/year)", tickformat=".2s", rangemode="tozero"),
+        chart="area",
+        notes=(
+            "Electricity actually generated, at face value — no substitution scaling, so "
+            "these are smaller numbers than the primary-energy charts give solar. Regions are "
+            "mutually exclusive and the residual is computed as the world total minus the "
+            "named ones, so the bands always add up to the published world figure."
+        ),
+    ),
+    SeriesSpec(
+        id="nuclear-by-region",
+        title="Nuclear electricity, by where it is generated",
+        description=(
+            "The same decomposition for nuclear, and a different shape entirely: world "
+            "output has been roughly flat for thirty years while the composition underneath "
+            "it changed completely — the American and European fleets ageing, Japan's "
+            "collapsing after 2011 and only partly returning, China's arriving from nothing."
+        ),
+        group="electricity",
+        sources=[OWID_ENERGY],
+        fetch=owid.nuclear_by_region,
+        y=Axis(title="Generation (TWh/year)", tickformat=".2s", rangemode="tozero"),
+        chart="area",
+        notes=(
+            "Electricity generated, at face value. Russia's series begins in 1985, so Soviet "
+            "output before then sits in the residual rather than in its own band; the world "
+            "total is unaffected. Regions are mutually exclusive and the residual is the "
+            "world total minus the named ones."
         ),
     ),
     SeriesSpec(
