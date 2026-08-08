@@ -93,11 +93,17 @@ class SeriesSpec:
     # Whether to draw the shared event markers from events.toml.
     annotations: bool = True
 
-    # "line"         one trace per Line.
-    # "area"         stacked areas summing to the total. For a decomposition of
-    #                a whole, where the total matters as much as the parts.
-    # "area-percent" the same, normalised to 100%. For when only the shares do.
+    # "line" draws one trace per Line. "area" declares the series a
+    # decomposition of a whole, which earns it three views in the front end --
+    # stacked, normalised to 100%, and plain lines with a computed total -- so
+    # one chart answers what used to take three.
     chart: str = "line"
+
+    # Months in the moving average offered on monthly series; 0 hides the
+    # control. Twelve is the useful one: it takes out the seasonal cycle, which
+    # on this data is large enough to hide the trend entirely.
+    smooth_months: int = 0
+    smooth_default: bool = True
 
     # Plotly line shape. "hv" draws a staircase, which is the honest rendering
     # for a running maximum: the value holds until something beats it.
@@ -119,6 +125,8 @@ class SeriesSpec:
             "mode": self.mode,
             "annotations": self.annotations,
             "chart": self.chart,
+            "smooth_months": self.smooth_months,
+            "smooth_default": self.smooth_default,
             "line_shape": self.line_shape,
             "notes": self.notes,
         }

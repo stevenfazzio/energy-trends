@@ -14,8 +14,19 @@ from ..model import Line
 from . import cbeci, ember
 
 # Chosen to bracket the Bitcoin network's current draw from both sides, so the
-# comparison stays legible whichever way the estimate moves.
-COMPARISON_COUNTRIES = ["Poland", "Argentina", "Sweden", "Netherlands"]
+# comparison stays legible whichever way the estimate moves -- plus the United
+# States, which is off that scale by more than an order of magnitude and is
+# there to keep the whole comparison in proportion. Read it on the log scale.
+COMPARISON_COUNTRIES = [
+    "United States of America",
+    "Poland",
+    "Argentina",
+    "Sweden",
+    "Netherlands",
+]
+
+# Ember spells the US out in full; the rest of the site does not.
+COUNTRY_LABELS = {"United States of America": "United States"}
 
 # Before this the network's consumption rounds to nothing on a linear axis.
 FROM_YEAR = 2014
@@ -47,17 +58,5 @@ def bitcoin_vs_countries() -> list[Line]:
         by_year = demand.get(country, {})
         points = [(f"{y}-01-01", by_year[y]) for y in years if y in by_year]
         if points:
-            lines.append(Line(country, points))
+            lines.append(Line(COUNTRY_LABELS.get(country, country), points))
     return lines
-
-
-def bitcoin_share_of_world_electricity() -> list[Line]:
-    """The Bitcoin network as a percentage of world electricity demand."""
-    bitcoin = _bitcoin_by_year()
-    world = ember.annual_demand_by_area().get("World", {})
-
-    points = []
-    for year in sorted(set(bitcoin) & set(world)):
-        if int(year) >= FROM_YEAR and world[year] > 0:
-            points.append((f"{year}-01-01", bitcoin[year] / world[year] * 100))
-    return [Line("Bitcoin network", points)]

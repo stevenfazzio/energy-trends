@@ -35,6 +35,7 @@ COMPLETE_CSV = "https://raw.githubusercontent.com/owid/energy-data/master/owid-e
 LONG_RUN_CSV = "https://ourworldindata.org/grapher/global-energy-substitution.csv"
 CO2_CSV = "https://ourworldindata.org/grapher/co2-by-source.csv"
 CALORIES_CSV = "https://ourworldindata.org/grapher/daily-per-capita-caloric-supply.csv"
+POPULATION_CSV = "https://ourworldindata.org/grapher/population.csv"
 
 # Regions chosen to explain the global line rather than to rank countries: the
 # two that dominate the level, the one that dominates the growth, the bloc that
@@ -137,6 +138,37 @@ def _calories() -> list[dict[str, str]]:
     return list(csv.DictReader(io.StringIO(get_text(CALORIES_CSV))))
 
 
+@lru_cache(maxsize=1)
+def _world_population() -> dict[str, float]:
+    """{year: world population}. Reaches back to 10,000 BC; we use 1800 on."""
+    out: dict[str, float] = {}
+    for row in csv.DictReader(io.StringIO(get_text(POPULATION_CSV))):
+        if row["Entity"] == "World":
+            value = parse_float(row.get("Population"))
+            if value is not None:
+                out[row["Year"]] = value
+    return out
+
+
+@lru_cache(maxsize=1)
+def _long_run_world_totals() -> dict[str, float]:
+    """{year: total primary energy, TWh} summed across the long-run sources."""
+    out: dict[str, float] = {}
+    for row in _long_run():
+        if row["Entity"] != "World":
+            continue
+        total = 0.0
+        for key, raw in row.items():
+            if key in ("Entity", "Code", "Year"):
+                continue
+            value = parse_float(raw)
+            if value is not None:
+                total += value
+        if total > 0:
+            out[row["Year"]] = total
+    return out
+
+
 # 1 kcal = 4184 J; a day is 86,400 s.
 WATTS_PER_KCAL_PER_DAY = 4184.0 / 86400.0
 
@@ -146,9 +178,26 @@ def food_versus_all_energy() -> list[Line]:
 
     The measurement that makes the rest of this site a question about an
     organism rather than an industry: dietary intake is the energy humans
-    actually run on, and everything else is the energy they have arranged to
-    have burned on their behalf. The ratio is currently about seventeen.
+    actually run on, and everything above it is energy they have arranged to
+    have burned on their behalf.
+
+    The upper line is computed here rather than taken from OWID's
+    `energy_per_capita`, which starts in 1965. Dividing the long-run supply
+    series by population carries it back to 1800, where the interesting thing
+    is: a person in 1800 commanded something like 650 W, so the ratio to
+    dietary intake was nearer six than seventeen. Most of what this site
+    measures was built in those two centuries.
     """
+    totals = _long_run_world_totals()
+    population = _world_population()
+
+    energy = []
+    for year in sorted(set(totals) & set(population)):
+        people = population[year]
+        if people > 0:
+            # TWh/year -> W: 1e12 Wh spread over the hours in a year.
+            energy.append((_year_date(year), totals[year] * 1e12 / HOURS_PER_YEAR / people))
+
     food = []
     for row in _calories():
         if row["Entity"] != "World":
@@ -157,11 +206,47 @@ def food_versus_all_energy() -> list[Line]:
         if kcal is not None:
             food.append((_year_date(row["Year"]), kcal * WATTS_PER_KCAL_PER_DAY))
 
-    total = _column("World", "energy_per_capita", scale=1000.0 / HOURS_PER_YEAR)
     return [
-        Line("All energy per person", total),
+        Line("All energy per person", energy),
         Line("Dietary energy per person", food),
     ]
+
+
+# OWID publishes no GDP for its own continental and bloc aggregates, so the two
+# the site wants are built here from member states. Numerator and denominator
+# are summed over the *same* members in each year -- a country with energy but
+# no GDP that year is dropped from both -- so patchy coverage changes which
+# countries the ratio describes rather than biasing the ratio itself.
+EU27_ISO = """AUT BEL BGR HRV CYP CZE DNK EST FIN FRA DEU GRC HUN IRL ITA LVA LTU LUX MLT
+NLD POL PRT ROU SVK SVN ESP SWE""".split()
+
+AFRICA_ISO = """DZA AGO BEN BWA BFA BDI CPV CMR CAF TCD COM COD COG CIV DJI EGY GNQ ERI SWZ
+ETH GAB GMB GHA GIN GNB KEN LSO LBR LBY MDG MWI MLI MRT MUS MAR MOZ NAM NER NGA RWA STP SEN
+SYC SLE SOM ZAF SSD SDN TZA TGO TUN UGA ZMB ZWE""".split()
+
+
+# OWID reports energy in TWh and GDP in international dollars, but publishes the
+# ratio as kilowatt-hours per dollar. A terawatt-hour is 1e9 kWh.
+KWH_PER_TWH = 1e9
+
+
+def _aggregate_energy_per_gdp(codes: list[str]) -> list[tuple[str, float]]:
+    members = set(codes)
+    energy: dict[str, float] = {}
+    gdp: dict[str, float] = {}
+
+    for row in _complete():
+        if (row.get("iso_code") or "").strip() not in members:
+            continue
+        terawatt_hours = parse_float(row.get("primary_energy_consumption"))
+        output = parse_float(row.get("gdp"))
+        if terawatt_hours is None or output is None or output <= 0:
+            continue
+        year = row["year"]
+        energy[year] = energy.get(year, 0.0) + terawatt_hours
+        gdp[year] = gdp.get(year, 0.0) + output
+
+    return [(_year_date(y), energy[y] * KWH_PER_TWH / gdp[y]) for y in sorted(energy) if gdp.get(y)]
 
 
 def energy_per_gdp() -> list[Line]:
@@ -169,6 +254,13 @@ def energy_per_gdp() -> list[Line]:
     lines = []
     for entity, label in REGIONS:
         points = _column(entity, "energy_per_gdp")
+        if points:
+            lines.append(Line(label, points))
+
+    for label, codes in (("European Union", EU27_ISO), ("Africa", AFRICA_ISO)):
+        if any(line.name == label for line in lines):
+            continue
+        points = _aggregate_energy_per_gdp(codes)
         if points:
             lines.append(Line(label, points))
     return lines
@@ -185,29 +277,6 @@ def primary_energy_by_continent() -> list[Line]:
 
 
 # ---- sources ------------------------------------------------------------
-
-
-MIX_SOURCES = [
-    ("coal_consumption", "Coal"),
-    ("oil_consumption", "Oil"),
-    ("gas_consumption", "Gas"),
-    ("nuclear_consumption", "Nuclear"),
-    ("hydro_consumption", "Hydro"),
-    ("wind_consumption", "Wind"),
-    ("solar_consumption", "Solar"),
-    ("biofuel_consumption", "Biofuels"),
-    ("other_renewable_consumption", "Other renewables"),
-]
-
-
-def primary_energy_mix() -> list[Line]:
-    """Share of world primary energy by source, as a 100% stack."""
-    lines = []
-    for column, label in MIX_SOURCES:
-        points = [(when, value) for when, value in _column("World", column)]
-        if points:
-            lines.append(Line(label, points))
-    return lines
 
 
 def fossil_vs_low_carbon() -> list[Line]:

@@ -18,9 +18,11 @@
  "mode": "recompute",
  "annotations": true,
  "chart": "line",
+ "smooth_months": 0,
+ "smooth_default": true,
  "line_shape": "linear",
  "notes": "One small country hosting a disproportionate share of European capacity, so this is an early case rather than a representative one. Metered consumption only, which excludes any on-site generation.",
- "updated": "2026-08-07T15:44:21Z",
+ "updated": "2026-08-08T05:03:01Z",
  "lines": [
   {
    "name": "Data centres",

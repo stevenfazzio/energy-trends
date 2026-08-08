@@ -60,6 +60,11 @@ the generation chart and the capacity-factor chart sit next to each other.
 **Primary versus final.** Electricity is about a fifth of final energy. Charts
 in the Electricity group describe that fifth, not the system.
 
+**Averaged versus raw.** Monthly series default to a trailing 12-month average,
+because the seasonal cycle is large enough to hide the trend entirely — US
+residential demand swings by a factor of two between summer and winter. The raw
+series is one click away on every such chart.
+
 **Estimates versus measurements.** Everything here is measured except the
 Bitcoin series, which Cambridge infers from hash rate and an assumed hardware
 mix. It is the only chart drawn with an uncertainty band, because it is the only
@@ -90,8 +95,12 @@ does not refetch them.
 3. `uv run python -m energy_trends.build --only your-new-id --fail-fast`
 
 The page is driven entirely by `data/manifest.json`; no front-end changes are
-needed. Set `chart="area"` for a stack, `chart="area-percent"` for shares, and
-give a `Line` a `band` if — and only if — the upstream publishes bounds.
+needed. `chart="area"` declares the series a decomposition of a whole, which
+earns it three views in the front end — stacked, normalised to 100%, and plain
+lines with a computed total. `smooth_months=12` adds a moving-average toggle,
+which any monthly series needs: the seasonal swing in this data is routinely
+larger than several years of trend. Give a `Line` a `band` if — and only if —
+the upstream publishes bounds.
 
 ## Sources
 

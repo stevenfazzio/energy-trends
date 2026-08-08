@@ -18,9 +18,11 @@
  "mode": "recompute",
  "annotations": true,
  "chart": "line",
+ "smooth_months": 12,
+ "smooth_default": true,
  "line_shape": "linear",
- "notes": "Seasonal: intensity rises in winter when demand is met by whatever can be dispatched. Compare the same month across years.",
- "updated": "2026-08-07T15:44:27Z",
+ "notes": "Intensity rises in winter, when the extra demand is met by whatever can be dispatched \u2014 a swing wide enough to bury the trend, hence the 12-month average by default. Switch to Monthly to see the seasonal shape itself.",
+ "updated": "2026-08-08T05:03:01Z",
  "lines": [
   {
    "name": "World",

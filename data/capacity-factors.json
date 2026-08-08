@@ -18,9 +18,11 @@
  "mode": "recompute",
  "annotations": true,
  "chart": "line",
+ "smooth_months": 0,
+ "smooth_default": true,
  "line_shape": "linear",
  "notes": "Solar sits near 13% and nuclear near 78%, so a gigawatt of one is not a gigawatt of the other \u2014 a distinction that headlines about capacity records routinely drop. Low factors are not all the same thing: solar's is set by the sun, gas-fired plant runs part-time by choice, and a coal fleet's decline reflects being outbid. 'Other renewables' is omitted: it is a residual category whose capacity and generation series do not cover the same plant, and dividing one by the other yields factors above 100%.",
- "updated": "2026-08-07T15:44:15Z",
+ "updated": "2026-08-08T05:03:01Z",
  "lines": [
   {
    "name": "Coal",

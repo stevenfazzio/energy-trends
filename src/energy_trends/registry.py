@@ -137,9 +137,9 @@ SERIES = [
         description=(
             "What a person eats, next to what a person uses, in the same units. Dietary "
             "intake is the energy a human body actually runs on; everything above it is "
-            "energy arranged to be burned on that person's behalf. The ratio is about "
-            "seventeen to one, up from thirteen in 1965 — and note that the lower line has "
-            "been rising too."
+            "energy arranged to be burned on that person's behalf. In 1800 the ratio was "
+            "around six to one. It is now about seventeen, and essentially all of that "
+            "change is the upper line moving."
         ),
         group="throughput",
         sources=[
@@ -153,11 +153,16 @@ SERIES = [
         fetch=owid.food_versus_all_energy,
         y=Axis(title="Watts per person", log=True, tickformat=".3s"),
         notes=(
-            "Food is FAO's dietary energy *supply* — what reaches retail — so it runs above "
-            "what people actually eat, by roughly the share that is wasted. Converted at "
-            "4,184 J per kcal. A resting adult body dissipates something like 80–100 W, so "
-            "the food line sitting near 145 W is the right order of magnitude for a "
-            "population that also includes children and the sedentary. " + SUBSTITUTION_NOTE
+            "The upper line is the long-run supply series divided by world population, which "
+            "is what carries it back to 1800; before 1965 both are historical estimates "
+            "rather than measurement, and the energy side is Vaclav Smil's. Food is FAO's "
+            "dietary energy *supply* — what reaches retail — so it runs above what people "
+            "actually eat, by roughly the share that is wasted, and it only begins in 1961. "
+            "Converted at 4,184 J per kcal. A resting adult body dissipates something like "
+            "80–100 W, so the food line near 145 W is the right order of magnitude for a "
+            "population that includes children and the sedentary. Counted as total energy "
+            "supply, not by the substitution method — the same convention as the long-run "
+            "chart above, and not the one used elsewhere in this group."
         ),
     ),
     SeriesSpec(
@@ -186,23 +191,16 @@ SERIES = [
             "GDP is in constant international dollars, so this is not distorted by inflation "
             "or exchange rates, but it does move with what a country makes as much as with "
             "how efficiently it makes it — offshoring heavy industry improves the ratio "
-            "without any physical change. The EU and Africa are absent because OWID carries "
-            "no GDP figure for those aggregates, and the series ends in 2022 for the same "
-            "reason. " + SUBSTITUTION_NOTE
+            "without any physical change. The series ends in 2022, where OWID's GDP figures "
+            "do. OWID publishes no GDP for its own bloc and continent aggregates, so the "
+            "European Union and Africa lines are built here by summing member states: both "
+            "energy and GDP are summed over the same members each year, so a country missing "
+            "one figure drops out of both and the ratio still describes whatever is covered. "
+            "The 27 EU members reproduce OWID's own energy aggregate to four significant "
+            "figures; the 54 African states cover about 94% of it. " + SUBSTITUTION_NOTE
         ),
     ),
     # ---- sources -------------------------------------------------------
-    SeriesSpec(
-        id="primary-energy-mix",
-        title="Share of world primary energy by source",
-        description="The same total as above, normalised, so only the composition shows.",
-        group="sources",
-        sources=[OWID_ENERGY],
-        fetch=owid.primary_energy_mix,
-        y=Axis(title="Share of primary energy", tickformat=".0%"),
-        chart="area-percent",
-        notes=SUBSTITUTION_NOTE,
-    ),
     SeriesSpec(
         id="fossil-vs-low-carbon",
         title="Fossil and low-carbon energy, in absolute terms",
@@ -294,19 +292,22 @@ SERIES = [
         id="world-electricity-mix",
         title="World electricity generation by fuel, monthly",
         description=(
-            "Generation stacked by fuel, at monthly resolution. The annual figures smooth "
-            "away a seasonal swing that is a real feature of the system: hydro follows the "
-            "melt, solar the northern summer."
+            "Generation stacked by fuel, monthly. Under the seasonal swing — hydro follows "
+            "the melt, solar the northern summer — coal has stopped growing and solar has "
+            "not."
         ),
         group="electricity",
         sources=[EMBER_MONTHLY],
         fetch=ember.world_electricity_mix,
+        smooth_months=12,
         y=Axis(title="Generation (TWh/month)", tickformat=".2s", rangemode="tozero"),
         chart="area",
         notes=(
             "Measured generation, no substitution scaling — so solar here is the electricity "
             "it actually produced. Ember's monthly coverage begins in 2019 and the most "
-            "recent months are revised as national statistics land."
+            "recent months are revised as national statistics land. The 12-month average is "
+            "on by default; switch to Monthly for the seasonal shape, and to Lines for each "
+            "fuel against the total."
         ),
     ),
     SeriesSpec(
@@ -316,10 +317,13 @@ SERIES = [
         group="electricity",
         sources=[EMBER_MONTHLY],
         fetch=ember.solar_wind_share,
+        smooth_months=12,
         y=Axis(title="Share of generation (%)", tickformat=".0f", rangemode="tozero"),
         notes=(
-            "Monthly, so the seasonal cycle dominates the short-run wiggle; compare the same "
-            "month across years rather than adjacent months."
+            "Shown as a trailing 12-month average by default, because the seasonal cycle in "
+            "the raw monthly series is larger than several years of trend. Switch to Monthly "
+            "to see it; there, compare the same month across years rather than adjacent ones. "
+            "The averaged line starts 11 months after the data does."
         ),
     ),
     SeriesSpec(
@@ -332,6 +336,7 @@ SERIES = [
         group="electricity",
         sources=[EMBER_MONTHLY],
         fetch=ember.world_electricity_demand,
+        smooth_months=12,
         y=Axis(title="Demand (TWh/month)", tickformat=".2s", rangemode="tozero"),
     ),
     SeriesSpec(
@@ -387,6 +392,8 @@ SERIES = [
         group="loads",
         sources=[CBECI],
         fetch=cbeci.bitcoin_electricity,
+        smooth_months=12,
+        smooth_default=False,
         y=Axis(title="Annualised consumption (TWh/year)", tickformat=".0f", rangemode="tozero"),
         # None of the energy shocks has any claim on a hash rate.
         annotations=False,
@@ -402,30 +409,20 @@ SERIES = [
         title="Bitcoin against national electricity demand",
         description=(
             "The same estimate placed next to whole countries' measured electricity demand, "
-            "which is the only way the number means anything."
+            "which is the only way the number means anything. It now sits between Sweden and "
+            "Argentina — and at roughly 0.6% of world electricity demand, which is the "
+            "figure that settles the magnitude question."
         ),
         group="loads",
         sources=[CBECI, EMBER_YEARLY],
         fetch=loads.bitcoin_vs_countries,
-        y=Axis(title="Electricity (TWh/year)", tickformat=".3s", rangemode="tozero"),
+        y=Axis(title="Electricity (TWh/year)", log=True, tickformat=".3s"),
         notes=(
             "Bitcoin is the mean of its monthly annualised estimates within each year; the "
-            "countries are Ember's measured annual demand. Countries chosen to bracket the "
-            "current estimate from both sides, not for any other reason."
+            "countries are Ember's measured annual demand. Four are there to bracket the "
+            "current estimate from both sides; the United States is an order of magnitude "
+            "above all of them, which is why this defaults to a log axis."
         ),
-    ),
-    SeriesSpec(
-        id="bitcoin-share-of-world-electricity",
-        title="Bitcoin as a share of world electricity",
-        description=(
-            "The comparison that settles the magnitude question: a load the size of a "
-            "mid-sized country is still a fraction of a percent of world demand."
-        ),
-        group="loads",
-        sources=[CBECI, EMBER_YEARLY],
-        fetch=loads.bitcoin_share_of_world_electricity,
-        y=Axis(title="Share of world electricity demand (%)", tickformat=".2f", rangemode="tozero"),
-        annotations=False,
     ),
     SeriesSpec(
         id="irish-data-centre-share",
@@ -457,12 +454,15 @@ SERIES = [
         group="loads",
         sources=[EIA_MER],
         fetch=eia.us_energy_by_sector,
+        smooth_months=12,
         y=Axis(title="Consumption (TWh/month)", tickformat=".3s", rangemode="tozero"),
         notes=(
             "Converted from trillion Btu at 0.293 TWh each. Sector totals include the "
             "electricity each sector uses, attributed to the sector rather than to power "
-            "generation, so the four lines partition the national total. Month lengths are "
-            "not normalised, so February always dips."
+            "generation, so the four lines partition the national total. Defaults to a "
+            "12-month average: residential and commercial demand swing by a factor of two "
+            "between summer and winter, which on the raw monthly view is all you can see. "
+            "Month lengths are not normalised either, so February dips there too."
         ),
     ),
     # ---- exhaust -------------------------------------------------------
@@ -490,10 +490,12 @@ SERIES = [
         group="exhaust",
         sources=[EMBER_MONTHLY],
         fetch=ember.grid_carbon_intensity,
+        smooth_months=12,
         y=Axis(title="gCO₂ per kWh", tickformat=".0f", rangemode="tozero"),
         notes=(
-            "Seasonal: intensity rises in winter when demand is met by whatever can be "
-            "dispatched. Compare the same month across years."
+            "Intensity rises in winter, when the extra demand is met by whatever can be "
+            "dispatched — a swing wide enough to bury the trend, hence the 12-month average "
+            "by default. Switch to Monthly to see the seasonal shape itself."
         ),
     ),
     SeriesSpec(
@@ -503,6 +505,7 @@ SERIES = [
         group="exhaust",
         sources=[EMBER_MONTHLY],
         fetch=ember.power_sector_emissions,
+        smooth_months=12,
         y=Axis(title="CO₂ (Mt/month)", tickformat=".3s", rangemode="tozero"),
         chart="area",
     ),
