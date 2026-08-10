@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Capacity is what a fleet could deliver running flat out, not what it does deliver. The next chart is the conversion between the two.",
- "updated": "2026-08-08T06:07:33Z",
+ "updated": "2026-08-10T08:07:39Z",
  "lines": [
   {
    "name": "Coal",

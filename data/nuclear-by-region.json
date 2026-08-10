@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Electricity generated, at face value. Russia's series begins in 1985, so Soviet output before then sits in the residual rather than in its own band; the world total is unaffected. Regions are mutually exclusive and the residual is the world total minus the named ones.",
- "updated": "2026-08-08T06:07:29Z",
+ "updated": "2026-08-10T08:07:35Z",
  "lines": [
   {
    "name": "United States",

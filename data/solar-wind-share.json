@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Shown as a trailing 12-month average by default, because the seasonal cycle in the raw monthly series is larger than several years of trend. Switch to Monthly to see it; there, compare the same month across years rather than adjacent ones. The averaged line starts 11 months after the data does.",
- "updated": "2026-08-08T06:07:29Z",
+ "updated": "2026-08-10T08:07:35Z",
  "lines": [
   {
    "name": "World",

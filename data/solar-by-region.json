@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Electricity actually generated, at face value \u2014 no substitution scaling, so these are smaller numbers than the primary-energy charts give solar. Regions are mutually exclusive and the residual is computed as the world total minus the named ones, so the bands always add up to the published world figure.",
- "updated": "2026-08-08T06:07:29Z",
+ "updated": "2026-08-10T08:07:35Z",
  "lines": [
   {
    "name": "China",
