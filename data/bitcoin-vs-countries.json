@@ -26,7 +26,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Bitcoin is the mean of its monthly annualised estimates within each year; the countries are Ember's measured annual demand. Four are there to bracket the current estimate from both sides; the United States is an order of magnitude above all of them, which is why this defaults to a log axis.",
- "updated": "2026-08-10T08:07:41Z",
+ "updated": "2026-08-17T07:19:03Z",
  "lines": [
   {
    "name": "Bitcoin network",
@@ -81,7 +81,7 @@
     ],
     [
      "2026-01-01",
-     167.0399423970987
+     167.29163344546745
     ]
    ]
   },

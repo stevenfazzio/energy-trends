@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Converted from trillion Btu at 0.293 TWh each. Sector totals include the electricity each sector uses, attributed to the sector rather than to power generation, so the four lines partition the national total. Defaults to a 12-month average: residential and commercial demand swing by a factor of two between summer and winter, which on the raw monthly view is all you can see. Month lengths are not normalised either, so February dips there too.",
- "updated": "2026-08-10T08:07:48Z",
+ "updated": "2026-08-17T07:19:09Z",
  "lines": [
   {
    "name": "Transportation",

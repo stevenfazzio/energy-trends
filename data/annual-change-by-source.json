@@ -21,7 +21,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Annual differences are noisy: a mild winter or one large economy's recession moves a line more than any trend in the technology. Counted by the substitution method: electricity from nuclear, hydro, solar and wind is scaled up by roughly 1/0.4 to represent the fossil fuel that would have been burned to generate it. Under the direct method those sources read about 2.4\u00d7 lower and the world total is smaller. Neither convention is wrong; see the accounting chart.",
- "updated": "2026-08-10T08:07:30Z",
+ "updated": "2026-08-17T07:18:52Z",
  "lines": [
   {
    "name": "Coal",
