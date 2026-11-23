@@ -22,7 +22,7 @@
  "smooth_default": true,
  "line_shape": "linear",
  "notes": "Final energy, not primary: it excludes the fuel burned in power stations to make the electricity. Transport and industrial heat are most of what the remaining four-fifths goes to.",
- "updated": "2026-11-16T15:57:56Z",
+ "updated": "2026-11-23T18:21:40Z",
  "lines": [
   {
    "name": "World",

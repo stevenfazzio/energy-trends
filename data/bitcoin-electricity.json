@@ -21,7 +21,7 @@
  "smooth_default": false,
  "line_shape": "linear",
  "notes": "An estimate, not a measurement \u2014 the only such series on this site, which is why it is the only one drawn with a band. Cambridge infers power draw from the network hash rate and an assumed distribution of mining hardware. Sampled at month end from a daily index.",
- "updated": "2026-11-16T15:58:00Z",
+ "updated": "2026-11-23T18:21:43Z",
  "lines": [
   {
    "name": "Bitcoin network",
@@ -811,8 +811,8 @@
      193.29372183668715
     ],
     [
-     "2026-11-15",
-     159.86048445993688
+     "2026-11-22",
+     174.64576540949537
     ]
    ],
    "band": [
@@ -1797,9 +1797,9 @@
      335.74824456377144
     ],
     [
-     "2026-11-15",
-     79.14314251253687,
-     264.6858839375187
+     "2026-11-22",
+     87.9394710672418,
+     283.8237843422877
     ]
    ]
   }
